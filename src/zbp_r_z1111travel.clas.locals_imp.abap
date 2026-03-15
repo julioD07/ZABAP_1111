@@ -1,0 +1,30 @@
+CLASS LHC_ZR_Z1111TRAVEL DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
+  PRIVATE SECTION.
+    METHODS:
+      GET_GLOBAL_AUTHORIZATIONS FOR GLOBAL AUTHORIZATION
+        IMPORTING
+           REQUEST requested_authorizations FOR ZrZ1111travel
+        RESULT result,
+      setInitialStatus FOR DETERMINE ON SAVE
+            IMPORTING keys FOR ZrZ1111travel~setInitialStatus.
+ENDCLASS.
+
+CLASS LHC_ZR_Z1111TRAVEL IMPLEMENTATION.
+  METHOD GET_GLOBAL_AUTHORIZATIONS.
+  ENDMETHOD.
+  METHOD setInitialStatus.
+
+    MODIFY ENTITIES OF zr_z1111travel
+    IN LOCAL MODE
+    ENTITY ZrZ1111travel
+    UPDATE
+      FIELDS ( Status )
+      WITH VALUE #(
+        FOR key IN keys
+        ( %tky = key-%tky
+          Status = 'N' )
+      ).
+
+  ENDMETHOD.
+
+ENDCLASS.
